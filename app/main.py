@@ -1,10 +1,16 @@
+import hashlib
+import logging
 import os
+import urllib
 
 from google.appengine.api import users
+from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
-
 import webapp2
-import logging
+
+
+webapp.template.register_template_library('app.templatetags.tags')
+
 
 class Page(webapp2.RequestHandler):
 
@@ -22,10 +28,13 @@ class Page(webapp2.RequestHandler):
 			cpath = os.path.join(os.path.dirname(__file__), 'templates/{}.html')
 			content = template.render(cpath.format(tname), tvals)
 			path = os.path.join(os.path.dirname(__file__), 'templates/layout.html')
+			
+			
 			self.response.out.write(template.render(path, {
 				"tname": tname,
 				"yield": content,
 				"username": user.nickname(),
+				'gravatar_url': get_gravatar_url(user.email()),
 				"logout_url": users.create_logout_url("/")
 			}))
 
@@ -38,7 +47,16 @@ class MainPage(Page):
 class Profile(Page):
 
 	def get(self):
-		pass
+		
+		user = {
+			'name': 'Robert',
+			'email': 'robert@robert.com'
+			}
+		
+		tvals = {
+					'user': user
+				}
+		self.yield_page("profile", tvals)
 
 class Rankings(Page):
 
@@ -50,3 +68,15 @@ application = webapp2.WSGIApplication([
 	('/profile', Profile),
 	('/rankings', Rankings),
 ], debug=True)
+
+
+
+# This should be a template tag.
+
+DEFAULT_SIZE =20 
+DEFAULT_URL = 'http://t3.gstatic.com/images?q=tbn:ANd9GcRos9zoopqiNEf586EHxFxoP1YK4-oTxTDWAJ1qsWdzEP5P_2l0TQ'
+def get_gravatar_url(email, size=DEFAULT_SIZE, default_url=DEFAULT_URL):
+	# construct the url
+	gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(email.lower()).hexdigest() + "?"
+	gravatar_url += urllib.urlencode({'d':default_url, 's':str(size)})
+	return gravatar_url
