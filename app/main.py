@@ -4,12 +4,8 @@ import os
 import urllib
 
 from google.appengine.api import users
-from google.appengine.ext import webapp
 from google.appengine.ext.webapp import template
 import webapp2
-
-
-webapp.template.register_template_library('app.templatetags.tags')
 
 
 class Page(webapp2.RequestHandler):
@@ -25,18 +21,25 @@ class Page(webapp2.RequestHandler):
 		if user is None:
 			self.redirect(users.create_login_url(self.request.uri))
 		else:
-			cpath = os.path.join(os.path.dirname(__file__), 'templates/{}.html')
-			content = template.render(cpath.format(tname), tvals)
-			path = os.path.join(os.path.dirname(__file__), 'templates/layout.html')
-			
-			
-			self.response.out.write(template.render(path, {
-				"tname": tname,
-				"yield": content,
+			context = {
 				"username": user.nickname(),
+				'user': user,
 				'gravatar_url': get_gravatar_url(user.email()),
 				"logout_url": users.create_logout_url("/")
-			}))
+			}
+			
+			context.update(tvals)
+			
+			cpath = os.path.join(os.path.dirname(__file__), 'templates/{}.html')
+			content = template.render(cpath.format(tname), context)
+			path = os.path.join(os.path.dirname(__file__), 'templates/layout.html')
+
+			context.update({
+				"tname": tname,
+				"yield": content,
+			})
+
+			self.response.out.write(template.render(path, context))
 
 class MainPage(Page):
 
@@ -48,14 +51,7 @@ class Profile(Page):
 
 	def get(self):
 		
-		user = {
-			'name': 'Robert',
-			'email': 'robert@robert.com'
-			}
-		
-		tvals = {
-					'user': user
-				}
+		tvals = {}
 		self.yield_page("profile", tvals)
 
 class Rankings(Page):
