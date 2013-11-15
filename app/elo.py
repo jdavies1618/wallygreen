@@ -5,6 +5,10 @@ Facemash rating system, aka Elo Ratings. See
 http://en.wikipedia.org/wiki/Elo_rating_system
 for details.
 """
+
+DEFAULT_RATING = 600.0
+
+
 def update_ratings(winning_rating, losing_rating):
 	# K is the factor indicating the maximum possible adjustment per game
 	# 	We set to 32 for now to keep ratings volatile.
