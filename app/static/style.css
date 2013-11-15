@@ -54,3 +54,11 @@ a.profile-dropdown img {
 .center {
 	text-align: center;
 }
+
+body {
+	background: url('/static/img/dimension.png');
+}
+
+.container {
+	background: white;
+}
