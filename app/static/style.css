@@ -79,10 +79,14 @@ h2 img.league-icon {
 	display: inline;
 	vertical-align: sub;
 }
-.navbar-brand {
+.navbar-default .navbar-brand {
 	background-image: url('/static/img/paddle.png');
 	background-size: 40px 40px;
 	background-repeat: no-repeat;
-	padding-left: 56px;
+	padding-left: 80px;
+	padding-right: 20px;
 	background-position: 7% 50%;
+	font-family: Julius Sans One, sans-serif;
+	color: rgb(177, 18, 18);
+	letter-spacing: 7px;
 }
