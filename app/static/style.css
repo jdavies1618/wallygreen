@@ -62,3 +62,11 @@ body {
 .container {
 	background: white;
 }
+
+
+section.stats {
+	font-size: 1.4em;
+}
+section.stats .stats-label {
+	font-weight: bold;
+}
