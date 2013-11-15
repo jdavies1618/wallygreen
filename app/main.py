@@ -76,6 +76,7 @@ class AddPlayer(Page):
 		if data.is_valid():
 			entity = data.save(commit=False)
 			entity.put()
+			self.redirect('/')
 		else:
 			self.response.out.write('<html><body>'
 					'<form method="POST" '
