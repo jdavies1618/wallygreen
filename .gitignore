@@ -3,6 +3,7 @@
 *.py[cod]
 .Python
 include
+index.yaml
 
 # C extensions
 *.so

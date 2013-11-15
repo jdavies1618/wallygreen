@@ -2,10 +2,13 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<section id="Score Upload">
-</section>
 
 {% include "rankings.html" %}
-
-
+<section id="Score Upload">
+	<h1>Post a score</h1>
+	<form method="POST" action="/storegame" role="form">
+		{{ form_data.as_p|safe }}
+		<button type="submit" class="btn btn-default">Submit</button>
+	</form>
+</section>
 {% endblock %}
