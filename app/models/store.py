@@ -1,13 +1,14 @@
+from collections import OrderedDict
 import logging
 
 from google.appengine.api import users
 from google.appengine.ext import db
+from google.appengine.ext.db import djangoforms
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 
-from google.appengine.ext.db import djangoforms
-
 from app import elo
+
 
 BRONZE = "Bronze"
 SILVER = "Silver"
@@ -43,7 +44,27 @@ class Player(db.Model):
 						league=league)
 		player.save()
 		return player
-
+	
+	@classmethod
+	def get_players_in_league(cls, league):
+		q = Player.all()
+		q.filter('league = ', league)
+		q.order('-rating')
+		
+		players = []
+		for player in q.run():
+			players.append(player)
+		return players
+		
+	@classmethod
+	def get_players_by_league(cls):
+		leagues = OrderedDict()
+		for league in LEAGUES:
+			leagues[league] = cls.get_players_in_league(league)
+		
+		return leagues
+	
+	
 class Game(db.Model):
 	first_player = db.ReferenceProperty(Player, required=True, collection_name="p1_games")
 	first_score = db.IntegerProperty(required=True)

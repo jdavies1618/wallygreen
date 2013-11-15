@@ -73,3 +73,9 @@ section.stats {
 section.stats .stats-label {
 	font-weight: bold;
 }
+h2 img.league-icon {
+	width: 40px;
+	margin-right: .5em;
+	display: inline;
+	vertical-align: sub;
+}
