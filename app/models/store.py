@@ -12,10 +12,13 @@ from app import elo
 BRONZE = "Bronze"
 SILVER = "Silver"
 GOLD = "Gold"
+
+LEAGUES = [BRONZE, SILVER, GOLD]
+
 class Player(db.Model):
 	identity = db.UserProperty(required=True)
 	rating = db.FloatProperty(required=True)
-	league = db.StringProperty(choices=set([BRONZE, SILVER, GOLD]))
+	league = db.StringProperty(choices=set(LEAGUES))
 
 	def _get_played(self):
 		return 1

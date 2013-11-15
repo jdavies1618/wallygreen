@@ -63,6 +63,9 @@ body {
 	background: white;
 }
 
+h1 {
+	color: rgb(172, 34, 34);
+}
 
 section.stats {
 	font-size: 1.4em;

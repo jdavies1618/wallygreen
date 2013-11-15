@@ -5,8 +5,10 @@ import webapp2
 from google.appengine.api import users
 from google.appengine.ext.webapp import template
 from models.store import PlayerForm
+import webapp2
 
-from app.models.store import Player
+from app.models.store import Player, League
+from models.store import PlayerForm
 
 from util import get_gravatar_url
 
@@ -44,13 +46,18 @@ class Page(webapp2.RequestHandler):
 class MainPage(Page):
 
 	def get(self):
-		tvals = {}
+		
+		leagues = League.all()
+		
+		tvals = {
+				'leagues': leagues
+				}
 		self.yield_page("index", tvals)
 
 class Profile(Page):
 
 	def get(self):
-
+		
 		tvals = {}
 		self.yield_page("profile", tvals)
 
