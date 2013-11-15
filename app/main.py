@@ -8,6 +8,8 @@ from google.appengine.ext.webapp import template
 from models.store import PlayerForm
 import webapp2
 
+from app.models.store import Player
+
 
 class Page(webapp2.RequestHandler):
 
@@ -22,9 +24,13 @@ class Page(webapp2.RequestHandler):
 		if user is None:
 			self.redirect(users.create_login_url(self.request.uri))
 		else:
+			
+			player = Player.get_player(user)
+			
 			context = {
 				"username": user.nickname(),
 				'user': user,
+				'player': player,
 				'gravatar_url': get_gravatar_url(user.email()),
 				"logout_url": users.create_logout_url("/")
 			}
