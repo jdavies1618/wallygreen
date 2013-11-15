@@ -16,10 +16,18 @@ class Page(webapp2.RequestHandler):
 
 	def yield_page(self, tname, tvals):
 		user = users.get_current_user()
-		cpath = os.path.join(os.path.dirname(__file__), 'templates/{}.html')
-		content = template.render(cpath.format(tname), tvals)
-		path = os.path.join(os.path.dirname(__file__), 'templates/layout.html')
-		logging.info("Did it!")
+		if user is None:
+			self.redirect(users.create_login_url(self.request.uri))
+		else:
+			cpath = os.path.join(os.path.dirname(__file__), 'templates/{}.html')
+			content = template.render(cpath.format(tname), tvals)
+			path = os.path.join(os.path.dirname(__file__), 'templates/layout.html')
+			self.response.out.write(template.render(path, {
+				"tname": tname,
+				"yield": content,
+				"username": user.nickname(),
+				"logout_url": users.create_logout_url("/")
+			}))
 
 class MainPage(Page):
 
