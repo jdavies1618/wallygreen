@@ -49,6 +49,8 @@ class MainPage(Page):
 		for league, players in players_by_league.iteritems():
 			players_by_league_l.append(dict(league=league, players=players))
 		
+		# Best league first
+		players_by_league_l.reverse()
 		tvals = {
 				'players_by_league': players_by_league_l
 				}
