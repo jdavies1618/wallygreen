@@ -10,6 +10,10 @@ class Game(db.Model):
 	stored_time = db.DateTimeProperty(auto_now_add=True)
 	validated = db.BooleanProperty()
 
-class EloRating(db.Model):
-	player = db.UserProperty(required=True)
+class Player(db.Model):
+	identity = db.UserProperty(required=True)
 	rating = db.FloatProperty(required=True)
+	league = db.ReferenceProperty(League, collection_name="members")
+
+class League(db.Model):
+	name = db.StringProperty(choices=set(["Bronze", "Silver", "Gold"]))
