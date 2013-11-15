@@ -78,9 +78,13 @@
 		<!-- /.navbar-collapse -->
 	</nav>
 
+	{% block contentOutside %}
 	<div id="application-body" class="container">
-		{{yield}}
+		{% block content %} {% endblock %}
 	</div>
+	
+	{% endblock %}
+	
 	<footer class="footer clearfix">
 		<div class="container">
 			<hr>

@@ -27,19 +27,11 @@ class Page(webapp2.RequestHandler):
 				'gravatar_url': get_gravatar_url(user.email()),
 				"logout_url": users.create_logout_url("/")
 			}
-			
 			context.update(tvals)
 			
-			cpath = os.path.join(os.path.dirname(__file__), 'templates/{}.html')
-			content = template.render(cpath.format(tname), context)
-			path = os.path.join(os.path.dirname(__file__), 'templates/layout.html')
-
-			context.update({
-				"tname": tname,
-				"yield": content,
-			})
-
-			self.response.out.write(template.render(path, context))
+			cpath = os.path.join(os.path.dirname(__file__), 'templates/%s.html' % tname)
+			self.response.out.write(template.render(cpath, context))
+			
 
 class MainPage(Page):
 
