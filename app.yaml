@@ -11,3 +11,6 @@ handlers:
 - url: /.*
   script: app.main.application
 
+libraries:
+- name: django
+  version: latest

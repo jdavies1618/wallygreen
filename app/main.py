@@ -5,6 +5,7 @@ import urllib
 
 from google.appengine.api import users
 from google.appengine.ext.webapp import template
+from models.store import PlayerForm
 import webapp2
 
 
@@ -46,6 +47,31 @@ class Profile(Page):
 		tvals = {}
 		self.yield_page("profile", tvals)
 
+class AddPlayer(Page):
+	def get(self):
+		self.response.out.write('<html><body>'
+								'<form method="POST" '
+								'action="/player">'
+								'<table>')
+		self.response.out.write(PlayerForm())
+		self.response.out.write('</table>'
+								'<input type="submit">'
+								'</form></body></html>')
+	def post(self):
+		data=PlayerForm(data=self.request.POST)
+		if data.is_valid():
+			entity = data.save(commit=False)
+			entity.put()
+		else:
+			self.response.out.write('<html><body>'
+					'<form method="POST" '
+					'action="/player">'
+					'<table>')
+			self.response.out.write(PlayerForm())
+			self.response.out.write('</table>'
+									'<input type="submit">'
+									'</form></body></html>')
+
 class Rankings(Page):
 
 	def get(self):
@@ -55,6 +81,7 @@ application = webapp2.WSGIApplication([
 	('/', MainPage),
 	('/profile', Profile),
 	('/rankings', Rankings),
+	('/player', AddPlayer)
 ], debug=True)
 
 
