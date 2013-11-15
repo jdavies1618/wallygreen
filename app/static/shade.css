@@ -1,0 +1,58 @@
+/* Shade
+----------------------------------*/
+.shade {
+	display: inline-block;
+}
+
+.shade .title-wrapper {
+	padding: 5px 10px;
+}
+
+.shade .title {
+	background: url(images/shade-icon-expand.png) no-repeat right center;
+	padding-right: 15px;
+}
+
+.shade .content-wrapper {
+	display: none;
+	position: relative;
+	bottom: 0;
+	left: 0;
+}
+
+.shade .content {
+	position: absolute;
+	top: -3px;
+}
+
+.shade.align-left .content {
+	left: 0;
+}
+
+.shade.align-right .content {
+	right: 0;
+}
+
+/* Active shade
+----------------------------------*/
+.shade.active .title-wrapper {
+	background: #FFF;
+	-moz-box-shadow: 2px 0px 3px #999;
+	-webkit-box-shadow: 2px 0px 3px #999;
+	box-shadow: 2px 0px 3px #999;
+}
+
+.shade.active .content {
+	background: #FFF;
+	-moz-box-shadow: 2px 2px 3px #999;
+	-webkit-box-shadow: 2px 2px 3px #999;
+	box-shadow: 2px 2px 3px #999;
+}
+
+.shade.active .title {
+	background-image: url(images/shade-icon-collapse.png);
+}
+
+.shade.active .content-wrapper {
+	display: block;
+}

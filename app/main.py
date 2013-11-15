@@ -1,19 +1,44 @@
+import os
+
 from google.appengine.api import users
+from google.appengine.ext.webapp import template
 
 import webapp2
+import logging
 
+class Page(webapp2.RequestHandler):
 
-class MainPage(webapp2.RequestHandler):
+	"""This is the generic page handler.
 
-    def get(self):
-        user = users.get_current_user()
-        if user:
-            greeting = ('Welcome, %s! (<a href="%s">sign out</a>)' %
-                        (user.nickname(), users.create_logout_url('/')))
-        else:
-            greeting = ('<a href="%s">Sign in or register</a>.' %
-                        users.create_login_url('/'))
+	method to render any template on the server, and also automatically loads
+	related static content, and places the home bar at the top of the page.
+	"""
 
-        self.response.out.write('<html><body>%s</body></html>' % greeting)
+	def yield_page(self, tname, tvals):
+		user = users.get_current_user()
+		cpath = os.path.join(os.path.dirname(__file__), 'templates/{}.html')
+		content = template.render(cpath.format(tname), tvals)
+		path = os.path.join(os.path.dirname(__file__), 'templates/layout.html')
+		logging.info("Did it!")
 
-application = webapp2.WSGIApplication([('/', MainPage), ], debug=True)
+class MainPage(Page):
+
+	def get(self):
+		tvals = {}
+		self.yield_page("index", tvals)
+
+class Profile(Page):
+
+	def get(self):
+		pass
+
+class Rankings(Page):
+
+	def get(self):
+		pass
+
+application = webapp2.WSGIApplication([
+	('/', MainPage),
+	('/profile', Profile),
+	('/rankings', Rankings),
+], debug=True)

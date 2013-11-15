@@ -1,0 +1,323 @@
+/* Page layout
+----------------------------------*/
+html, body {
+	height: 100%;
+	text-align: left;
+}
+
+body {
+	background: #FFFFFF;
+	color: #4C5252;
+	font: 16px/24px "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+table {
+	text-align: center;
+}
+
+a {
+	color: #005E86;
+	font: bold 14px/24px "Helvetica Neue", Helvetica, Arial, sans-serif;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+ul, ol {
+	margin-bottom: 15px;
+}
+
+.wrapper {
+	width: 960px;
+	margin: 0 auto;
+	position: relative;
+	z-index: 100;
+}
+
+hr {
+	margin: 15px 0;
+	border-collapse: collapse;
+	border-top: 1px solid #000;
+}
+
+#application-body {
+	position: fixed;
+	top: 30px;
+}
+
+#header-user-profile a{
+	color:#4C5252;
+}
+
+/* Header
+----------------------------------*/
+header {
+	width: 100%;
+	height: 35px;
+	/*background-color: #1a82f7; ffffff efefef Might switch to this blue */
+	background-color: #efefef;
+	border-bottom: 1px solid #DFDFDF;
+	margin-bottom: 25px;
+	padding: 10px 0;
+	position: relative;
+	z-index: 150;
+	background-repeat: repeat-x;
+	background-image: -moz-linear-gradient(top, #ffffff, #efefef);
+	background-image: -ms-linear-gradient(top, #ffffff, #efefef);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #efefef));
+	background-image: -webkit-linear-gradient(top, #ffffff, #efefef);
+	background-image: -o-linear-gradient(top, #ffffff, #efefef);
+	background-image: linear-gradient(top, #ffffff, #efefef);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#efefef', GradientType=0);	
+}
+
+#header-company-name {
+	text-align: left;
+}
+
+#header-user-profile {
+	position: absolute;
+	top: 0px;
+	right: 10px;
+}
+
+#header-user-profile .menu li {
+	text-align: right;
+}
+
+/* Footer
+----------------------------------*/
+footer {
+	margin: 30px 0 10px;
+	padding-bottom: 60px;
+	font-size: 14px;
+}
+
+/* Menu
+----------------------------------*/
+.menu li {
+	white-space: nowrap;
+	padding: 10px;
+	border-bottom: 1px solid #DFDFDF;
+}
+
+/* Typography
+----------------------------------*/
+h1 {
+	font: bold 62px/66px "Helvetica Neue", Helvetica, Arial, sans-serif;
+	margin-bottom: 15px;
+}
+
+h2, h2 a {
+	font: bold 24px/35px "Helvetica Neue", Helvetica, Arial, sans-serif;
+	color: #4C5252;
+}
+
+h2 a:hover {
+	text-decoration:none;
+}
+
+h3, legend {
+	font: bold 20px/24px "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h6 {
+	font-size: 28px;
+	font-weight: 200;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+strong {
+	font-weight: bold;
+}
+
+em {
+	font-style: italic;
+}
+
+a.secondary {
+	font-weight: normal;
+}
+
+/* Forms
+----------------------------------*/
+.right {
+	text-align: right;
+}
+
+.section.right {
+	margin-top: 15px;
+}
+
+fieldset {
+	border: 2px solid #DFDFDF;
+	padding: 10px;
+}
+
+form.delete {
+	display: inline;
+}
+
+input, select {
+	border: 1px solid #000;
+	font: 18px Arial;
+	width: 250px;
+}
+
+input.very-long, select.very-long {
+	width: 500px;
+}
+
+input.long, select.long {
+	width: 375px;
+}
+
+input.short, select.short {
+	width: 125px;
+}
+
+input.very-short, select.very-short {
+	width: 75px;
+}
+
+input.delete {
+	border: 0px;
+	font: 14px/24px "Helvetica Neue",Helvetica,Arial,sans-serif;
+	width: auto;
+}
+
+label {
+	display: block;
+	font: bold 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+	margin-bottom: 5px;
+	text-transform: uppercase;
+}
+
+legend + .section {
+	margin-top: 20px;
+}
+
+.section + .section {
+	margin-top: 10px;
+}
+
+fieldset + fieldset {
+	margin-top: 20px;
+}
+
+.radio {
+	display: inline;
+	width: inherit;
+}
+
+/* Button Class
+----------------------------------*/
+
+.btn {
+    position: relative;
+    overflow: visible;
+    display: inline-block;
+    padding: 0.5em 1em;
+    border: 1px solid #d4d4d4;
+    margin: 0;
+    text-decoration: none;
+    text-align: center;
+    text-shadow: 1px 1px 0 #fff;
+    font:14px/normal sans-serif;
+    color: #333;
+    white-space: nowrap;
+    cursor: pointer;
+    outline: none;
+    background-color: #ececec;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f4f4f4), to(#ececec));
+    background-image: -moz-linear-gradient(#f4f4f4, #ececec);
+    background-image: -ms-linear-gradient(#f4f4f4, #ececec);
+    background-image: -o-linear-gradient(#f4f4f4, #ececec);
+    background-image: linear-gradient(#f4f4f4, #ececec);
+    -moz-background-clip: padding; /* for Firefox 3.6 */
+    background-clip: padding-box;
+    border-radius: 0.2em;
+    /* IE hacks */
+    zoom: 1;
+    *display: inline;
+}
+
+.btn:hover,
+.btn:focus,
+.btn:active,
+.btn.active {
+    border-color: #3072b3;
+    border-bottom-color: #2a65a0;
+    text-decoration: none;
+    text-shadow: -1px -1px 0 rgba(0,0,0,0.3);
+    color: #fff;
+    background-color: #3c8dde;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#599bdc), to(#3072b3));
+    background-image: -moz-linear-gradient(#599bdc, #3072b3);
+    background-image: -o-linear-gradient(#599bdc, #3072b3);
+    background-image: linear-gradient(#599bdc, #3072b3);
+}
+
+.btn:active,
+.btn.active {
+    border-color: #2a65a0;
+    border-bottom-color: #3884cd;
+    background-color: #3072b3;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3072b3), to(#599bdc));
+    background-image: -moz-linear-gradient(#3072b3, #599bdc);
+    background-image: -ms-linear-gradient(#3072b3, #599bdc);
+    background-image: -o-linear-gradient(#3072b3, #599bdc);
+    background-image: linear-gradient(#3072b3, #599bdc);
+}
+
+/* overrides extra padding on button elements in Firefox */
+.btn::-moz-focus-inner {
+    padding: 0;
+    border: 0;
+}
+
+/* Red Button
+----------------------------------*/
+.btn.danger {
+    color: #900;
+}
+
+.btn.danger:hover,
+.btn.danger:focus,
+.btn.danger:active {
+    border-color: #b53f3a;
+    border-bottom-color: #a0302a;
+    color: #fff;
+    background-color: #dc5f59;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#dc5f59), to(#b33630));
+    background-image: -moz-linear-gradient(#dc5f59, #b33630);
+    background-image: -ms-linear-gradient(#dc5f59, #b33630);
+    background-image: -o-linear-gradient(#dc5f59, #b33630);
+    background-image: linear-gradient(#dc5f59, #b33630);
+}
+
+.btn.danger:active,
+.btn.danger.active {
+    border-color: #a0302a;
+    border-bottom-color: #bf4843;
+    background-color: #b33630;
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#b33630), to(#dc5f59));
+    background-image: -moz-linear-gradient(#b33630, #dc5f59);
+    background-image: -ms-linear-gradient(#b33630, #dc5f59);
+    background-image: -o-linear-gradient(#b33630, #dc5f59);
+    background-image: linear-gradient(#b33630, #dc5f59);
+}
+
+/* Search */
+
+.results-block {
+	margin: 15px 0;
+}
+
+.results-block h4 {
+	margin: 5px 0;
+}
+
+
