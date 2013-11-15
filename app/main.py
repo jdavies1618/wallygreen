@@ -1,15 +1,14 @@
-import hashlib
 import logging
 import os
-import urllib
+import webapp2
 
 from google.appengine.api import users
 from google.appengine.ext.webapp import template
 from models.store import PlayerForm
-import webapp2
 
 from app.models.store import Player
 
+from util import get_gravatar_url
 
 class Page(webapp2.RequestHandler):
 
@@ -24,21 +23,23 @@ class Page(webapp2.RequestHandler):
 		if user is None:
 			self.redirect(users.create_login_url(self.request.uri))
 		else:
-			
+
 			player = Player.get_player(user)
-			
+
 			context = {
 				"username": user.nickname(),
 				'user': user,
 				'player': player,
 				'gravatar_url': get_gravatar_url(user.email()),
-				"logout_url": users.create_logout_url("/")
+				"logout_url": users.create_logout_url("/"),
+				"games_played": 45,
+				"games_won": 32,
+				"rating": 1600
 			}
 			context.update(tvals)
-			
+
 			cpath = os.path.join(os.path.dirname(__file__), 'templates/%s.html' % tname)
 			self.response.out.write(template.render(cpath, context))
-			
 
 class MainPage(Page):
 
@@ -49,7 +50,7 @@ class MainPage(Page):
 class Profile(Page):
 
 	def get(self):
-		
+
 		tvals = {}
 		self.yield_page("profile", tvals)
 
@@ -89,15 +90,3 @@ application = webapp2.WSGIApplication([
 	('/rankings', Rankings),
 	('/player', AddPlayer)
 ], debug=True)
-
-
-
-# This should be a template tag.
-
-DEFAULT_SIZE =20 
-DEFAULT_URL = 'http://t3.gstatic.com/images?q=tbn:ANd9GcRos9zoopqiNEf586EHxFxoP1YK4-oTxTDWAJ1qsWdzEP5P_2l0TQ'
-def get_gravatar_url(email, size=DEFAULT_SIZE, default_url=DEFAULT_URL):
-	# construct the url
-	gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(email.lower()).hexdigest() + "?"
-	gravatar_url += urllib.urlencode({'d':default_url, 's':str(size)})
-	return gravatar_url
