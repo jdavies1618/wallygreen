@@ -1,4 +1,4 @@
 wallygreen
 ==========
 
-Service to receive and display ping-pong scores and rankings
+Service to receive and display ping-pong scores and rankings.
