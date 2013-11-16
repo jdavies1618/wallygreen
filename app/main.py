@@ -84,7 +84,13 @@ class Profile(Page):
 class Rankings(Page):
 
 	def get(self):
-		tvals = {}
+		players_by_league = Player.get_players_by_league()
+		players_by_league_l = []
+		for league, players in players_by_league.iteritems():
+			players_by_league_l.append(dict(league=league, players=players))
+		tvals = {
+			'players_by_league': players_by_league_l
+		}
 		self.yield_page("rankings", tvals)
 
 class AddPlayer(Page):
