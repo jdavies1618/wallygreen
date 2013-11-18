@@ -15,11 +15,13 @@ SILVER = "Silver"
 GOLD = "Gold"
 
 LEAGUES = [BRONZE, SILVER, GOLD]
+LEAGUE_ELOS = [(0, BRONZE),
+			   (900, SILVER),
+			   (1200, GOLD)]
 
 class Player(db.Model):
 	identity = db.StringProperty(required=True)
 	rating = db.FloatProperty(required=True)
-	league = db.StringProperty(choices=set(LEAGUES))
 	nickname = db.StringProperty(required=True)
 	email = db.StringProperty(required=True)
 
@@ -42,6 +44,17 @@ class Player(db.Model):
 	def _get_lost(self):
 		return self.played - self.won
 	lost = property(_get_lost)
+
+	def _get_league(self):
+		player_elo = self.rating
+		player_league = BRONZE
+		for min_elo, league in LEAGUE_ELOS:
+			if player_elo < min_elo:
+				return player_league
+			else:
+				player_league = league
+		return player_league
+	league = property(_get_league)
 
 	@classmethod
 	def get_player(cls, user):
@@ -83,8 +96,13 @@ class Player(db.Model):
 	def get_players_by_league(cls):
 		leagues = OrderedDict()
 		for league in LEAGUES:
-			leagues[league] = cls.get_players_in_league(league)
-
+			leagues[league] = []
+		
+		q = Player.all()
+		q.order('-rating')
+		for player in q.run():
+			leagues[player.league].append(player)
+		
 		return leagues
 
 
