@@ -6,7 +6,7 @@ http://en.wikipedia.org/wiki/Elo_rating_system
 for details.
 """
 
-DEFAULT_RATING = 600.0
+DEFAULT_RATING = 1600.0
 
 
 def update_ratings(winning_rating, losing_rating):

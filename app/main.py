@@ -5,9 +5,9 @@ import os
 from google.appengine.api import users
 from google.appengine.ext.webapp import template
 
+import elo
 from models.store import Player, Game
 from util import get_gravatar_url
-
 
 class Page(webapp2.RequestHandler):
 
@@ -65,6 +65,7 @@ class StoreGame(Page):
 		if user is None:
 			self.redirect(users.create_login_url(self.request.uri))
 		else:
+			# store game
 			data=self.request.POST
 			first_player=Player.get_player_with_id(data['first_player'])
 			second_player=Player.get_player_with_id(data['second_player'])
@@ -75,6 +76,17 @@ class StoreGame(Page):
 			game.first_player_wins = (first_score > second_score)
 			game.reporter = Player.get_player(user)
 			game.put()
+
+			# update ratings
+			wp_1 = game.first_player_wins
+			wp_r, lp_r = (first_player.rating, second_player.rating) if wp_1 \
+							else (second_player.rating, first_player.rating)
+			new_wp, new_lp = elo.update_ratings(wp_r, lp_r)
+			first_player.rating = new_wp if wp_1 else new_lp
+			second_player.rating = new_lp if wp_1 else new_wp
+			first_player.put()
+			second_player.put()
+
 			self.redirect('/')
 
 class Profile(Page):
@@ -82,7 +94,7 @@ class Profile(Page):
 	def get(self, user_id):
 		player = Player.get_player_with_id(user_id)
 		games = player.games
-		
+
 		tvals = {
 				'profile': player,
 				'games': games,
