@@ -8,14 +8,14 @@
 	<form method="POST" action="/storegame" role="form" id="score-form">
 		<div class="form-group">
 			<label for="first_player_id">First player:</label>
-			<select id="first_player_id" name="first_player">
-				<option value selected="selected">---------</option>
+			<select id="first_player_id" class="player_id" name="first_player">
+				<option value="" selected="selected">---------</option>
 				{% for p in player_choices %}
 					<option value="{{p.0}}">{{p.1}}</option>
 				{% endfor %}
 			</select>
 			<label for="first_player_score_id">First score:<label>
-			<select id="first_player_score_id" name="first_score">
+			<select id="first_player_score_id" class="scores" name="first_score">
 				{% for o in initial_options %}
 					<option value="{{o}}">{{o}}</option>
 				{% endfor %} 
@@ -23,14 +23,14 @@
 		</div>
 		<div class="form-group">
 			<label for="second_player_id">Second player:</label>
-			<select id="second_player_id" name="second_player">
-				<option value selected="selected">---------</option>
+			<select id="second_player_id" class="player_id" name="second_player">
+				<option value="" selected="selected">---------</option>
 				{% for p in player_choices %}
 					<option value="{{p.0}}">{{p.1}}</option>
 				{% endfor %}
 			</select>
 			<label for="second_player_score_id">Second score:<label>
-			<select id="second_player_score_id" name="second_score">
+			<select id="second_player_score_id" class="scores" name="second_score">
 				{% for o in initial_options %}
 					<option value="{{o}}">{{o}}</option>
 				{% endfor %} 
