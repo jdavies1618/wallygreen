@@ -4,10 +4,8 @@ import os
 
 from google.appengine.api import users
 from google.appengine.ext.webapp import template
-from models.store import PlayerForm, GameForm
 
 from app.models.store import Player
-from models.store import PlayerForm, PlayerForm
 from util import get_gravatar_url
 
 
@@ -51,7 +49,6 @@ class MainPage(Page):
 			self.redirect(users.create_login_url(self.request.uri))
 		else:
 			player = Player.get_player(user)
-			form = GameForm()
 			form.first_player = player
 			tvals = {
 				'form_data': form,
@@ -59,28 +56,22 @@ class MainPage(Page):
 			}
 			self.yield_page("index", tvals)
 
-class StoreGame(Page):
-
-	def post(self):
-		user=users.get_current_user()
-		if user is None:
-			self.redirect(users.create_login_url(self.request.uri))
-		else:
-			player = Player.get_player(user)
-			data=GameForm(data=self.request.POST)
-			if data.is_valid():
-				entity = data.save(commit=False)
-				entity.reporter = player
-			 	entity.first_player_wins = (entity.first_score > entity.second_score)
-				entity.put()
-			self.redirect('/')
-
 class Profile(Page):
 
-	def get(self):
-		tvals = {}
+	def get(self, user_id):
+		player = Player.get_player_with_id(user_id)
+		tvals = {
+				'profile': player
+				}
 		self.yield_page("profile", tvals)
 
+
+class ProfileMe(Page):
+
+	def get(self):
+		user = users.get_current_user()
+		self.redirect('/profile/' + user.user_id())
+		
 class Rankings(Page):
 
 	def get(self):
@@ -121,8 +112,8 @@ class AddPlayer(Page):
 
 application = webapp2.WSGIApplication([
 	('/', MainPage),
-	('/profile', Profile),
+	('/profile/(\d+)', Profile),
+	('/profile/?', ProfileMe),
 	('/rankings', Rankings),
 	('/player', AddPlayer),
-	('/storegame', StoreGame)
 ], debug=True)

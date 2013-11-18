@@ -9,19 +9,42 @@
 	<h2>Stats</h2>
 	<div class="row">
 		<div class="stats-label text-right col-md-4">Played</div>
-		<div class="stats-value col-md-4">45</div>
+		<div class="stats-value col-md-4">{{player.played}}</div>
 	</div>
 
 
 	<div class="row">
 		<div class="stats-label text-right col-md-4">Won</div>
-		<div class="stats-value col-md-4">32</div>
+		<div class="stats-value col-md-4">{{player.won}}</div>
 	</div>
 
 	<div class="row">
 		<div class="stats-label text-right col-md-4">Lost</div>
-		<div class="stats-value col-md-4">13</div>
+		<div class="stats-value col-md-4">{{player.lost}}</div>
 	</div>
+
+</section>
+
+
+<section class="games">
+	{% if player.games %}
+	<table class="table">
+		<thead>
+			<th>Athlete</th>
+			<th>Played</th>
+		</thead>
+		<tbody>
+			{% for player in item.players %}
+			<tr>
+				<td>{{player.identity.nickname}}</td>
+				<td>derp</td>
+			</tr>
+			{% endfor %}
+
+		</tbody>
+	</table>
+
+	{% else %} {{user.nickname}} has not played any games yet! {% endif %}
 
 </section>
 

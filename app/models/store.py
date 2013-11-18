@@ -17,10 +17,16 @@ GOLD = "Gold"
 LEAGUES = [BRONZE, SILVER, GOLD]
 
 class Player(db.Model):
-	identity = db.UserProperty(required=True)
+	identity = db.StringProperty(required=True)
 	rating = db.FloatProperty(required=True)
 	league = db.StringProperty(choices=set(LEAGUES))
+	nickname = db.StringProperty(required=True)
+	email = db.StringProperty(required=True)
 
+	def _get_games(self):
+		return self.p1_games + self.p2_games
+	games = property(_get_games)
+	
 	def _get_played(self):
 		return self.p1_games.count() + self.p2_games.count()
 	played = property(_get_played)
@@ -30,24 +36,33 @@ class Player(db.Model):
 		wins_as_p2 = self.p2_games.filter("first_player_wins", False).count()
 		return wins_as_p1 + wins_as_p2
 	won = property(_get_won)
+	
+	def _get_lost(self):
+		return self.played - self.won
+	lost = property(_get_lost)
 
 	@classmethod
 	def get_player(cls, user):
-		q = db.Query(cls)
-		q.filter('identity', users.get_current_user())
-
-		player = q.get()
+		player = cls.get_player_with_id(user.user_id())
 		if not player:
 			player = cls.create_player(user)
 		return player
+	
+	@classmethod
+	def get_player_with_id(cls, user_id):
+		q = db.Query(cls)
+		q.filter('identity', user_id)
+		return q.get()
 
 	@classmethod
 	def create_player(cls, user):
 		logging.info('Creating player %s' % user.nickname())
 		league = BRONZE
-		player = cls(identity = user,
+		player = cls(identity = user.user_id(),
 						rating = elo.DEFAULT_RATING,
-						league=league)
+						league=league,
+						nickname = user.nickname(),
+						email = user.email())
 		player.save()
 		return player
 
