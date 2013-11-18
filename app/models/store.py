@@ -22,11 +22,13 @@ class Player(db.Model):
 	league = db.StringProperty(choices=set(LEAGUES))
 
 	def _get_played(self):
-		return 1
+		return self.p1_games.count() + self.p2_games.count()
 	played = property(_get_played)
 
 	def _get_won(self):
-		return 1
+		wins_as_p1 = self.p1_games.filter("first_player_wins", True).count()
+		wins_as_p2 = self.p2_games.filter("first_player_wins", False).count()
+		return wins_as_p1 + wins_as_p2
 	won = property(_get_won)
 
 	@classmethod
@@ -78,15 +80,9 @@ class Game(db.Model):
 	second_player = db.ReferenceProperty(Player, required=True, collection_name="p2_games")
 	second_score = db.IntegerProperty(required=True)
 	first_player_wins = db.BooleanProperty()
-	max_score = db.IntegerProperty(required=True, choices=set([11, 21]))
 	reporter = db.ReferenceProperty(Player, collection_name="reported_games")
 	stored_time = db.DateTimeProperty(auto_now_add=True)
 
 class PlayerForm(djangoforms.ModelForm):
 	class Meta:
 		model = Player
-
-class GameForm(djangoforms.ModelForm):
-	class Meta:
-		model = Game
-		fields = ['first_player', 'first_score', 'second_player', 'second_score', 'max_score']
