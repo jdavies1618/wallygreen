@@ -1,8 +1,12 @@
 import urllib
 import hashlib
 
+from google.appengine.api import app_identity
+server_url = app_identity.get_default_version_hostname()
+
 DEFAULT_SIZE = 20
-DEFAULT_URL = 'http://t3.gstatic.com/images?q=tbn:ANd9GcRos9zoopqiNEf586EHxFxoP1YK4-oTxTDWAJ1qsWdzEP5P_2l0TQ'
+DEFAULT_URL = 'http://media.tumblr.com/tumblr_mdpfupn4Pz1qhi1mx.jpg'
+
 
 # This should be a template tag.
 def get_gravatar_url(email, size=DEFAULT_SIZE, default_url=DEFAULT_URL):

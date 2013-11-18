@@ -1,4 +1,4 @@
-<section id="rankings">
+<div id="ranking-list">
 	{% for item in players_by_league %}
 	<h2><img src="/static/img/{{item.league|lower}}.png" class="league-icon league-{{item.league|lower}}" />{{item.league}}</h2>
 	
@@ -23,5 +23,4 @@
 	{% else %} No players in {{item.league|capfirst}} yet {% endif %}
 
 	{% endfor %}
-
-</section>
+</div>

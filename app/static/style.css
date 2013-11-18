@@ -67,6 +67,20 @@ h1 {
 	color: rgb(172, 34, 34);
 }
 
+section {
+	margin-top: 2em;	
+	margin-bottom: 2em;
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+section:nth-of-type(1) {
+	margin-top: 0;
+}
+
+section h1 {
+	margin: 0 0 .5em 0;
+}
+
 section.stats {
 	font-size: 1.4em;
 }
@@ -89,4 +103,8 @@ h2 img.league-icon {
 	font-family: Julius Sans One, sans-serif;
 	color: rgb(177, 18, 18);
 	letter-spacing: 7px;
+}
+#gravatar {
+	width: 25px;
+	height: 25px;
 }

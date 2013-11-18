@@ -1,21 +1,19 @@
 
 {% extends "layout.html" %}
 
-{% block content %}
+{% block contentOutside %}
 
-<div data-toggle="collapse" data-target="#score">
-	<h1>Post a score</h1>
-</div>
-<section id="score">
-	<form method="POST" action="/storegame" role="form">
+<section id="score" class="container">
+	<h1 data-toggle="collapse" data-target="#score-form">Post a score</h1>
+	<form method="POST" action="/storegame" role="form" id="score-form">
 		{{ form_data.as_p|safe }}
 		<button type="submit" class="btn btn-default">Submit</button>
 	</form>
 </section>
 
-<div data-toggle="collapse" data-target="#rankings">
-	<h1>Rankings</h1>
-</div>
-{% include "ranking_list.html" %}
+<section id="rankings" class="container">
+	<h1 data-toggle="collapse" data-target="#ranking-list">Rankings</h1>
+	{% include "ranking_list.html" %}
+</section>
 
 {% endblock %}
