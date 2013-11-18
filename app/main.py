@@ -1,9 +1,10 @@
 import logging
+import webapp2
 import os
 
 from google.appengine.api import users
 from google.appengine.ext.webapp import template
-import webapp2
+from models.store import PlayerForm, GameForm
 
 from app.models.store import Player
 from models.store import PlayerForm, PlayerForm
@@ -23,18 +24,14 @@ class Page(webapp2.RequestHandler):
 		if user is None:
 			self.redirect(users.create_login_url(self.request.uri))
 		else:
-
 			player = Player.get_player(user)
 
 			context = {
 				"username": user.nickname(),
 				'user': user,
-				'player': player,
+				"player": player,
 				'gravatar_url': get_gravatar_url(user.email()),
 				"logout_url": users.create_logout_url("/"),
-				"games_played": 45,
-				"games_won": 32,
-				"rating": 1600
 			}
 			context.update(tvals)
 
@@ -48,20 +45,53 @@ class MainPage(Page):
 		players_by_league_l = []
 		for league, players in players_by_league.iteritems():
 			players_by_league_l.append(dict(league=league, players=players))
-		
-		# Best league first
-		players_by_league_l.reverse()
-		tvals = {
+
+		user = users.get_current_user()
+		if user is None:
+			self.redirect(users.create_login_url(self.request.uri))
+		else:
+			player = Player.get_player(user)
+			form = GameForm()
+			form.first_player = player
+			tvals = {
+				'form_data': form,
 				'players_by_league': players_by_league_l
-				}
-		self.yield_page("index", tvals)
+			}
+			self.yield_page("index", tvals)
+
+class StoreGame(Page):
+
+	def post(self):
+		user=users.get_current_user()
+		if user is None:
+			self.redirect(users.create_login_url(self.request.uri))
+		else:
+			player = Player.get_player(user)
+			data=GameForm(data=self.request.POST)
+			if data.is_valid():
+				entity = data.save(commit=False)
+				entity.reporter = player
+			 	entity.first_player_wins = (entity.first_score > entity.second_score)
+				entity.put()
+			self.redirect('/')
 
 class Profile(Page):
 
 	def get(self):
-		
 		tvals = {}
 		self.yield_page("profile", tvals)
+
+class Rankings(Page):
+
+	def get(self):
+		players_by_league = Player.get_players_by_league()
+		players_by_league_l = []
+		for league, players in players_by_league.iteritems():
+			players_by_league_l.append(dict(league=league, players=players))
+		tvals = {
+			'players_by_league': players_by_league_l
+		}
+		self.yield_page("rankings", tvals)
 
 class AddPlayer(Page):
 	def get(self):
@@ -78,6 +108,7 @@ class AddPlayer(Page):
 		if data.is_valid():
 			entity = data.save(commit=False)
 			entity.put()
+			self.redirect('/')
 		else:
 			self.response.out.write('<html><body>'
 					'<form method="POST" '
@@ -88,14 +119,10 @@ class AddPlayer(Page):
 									'<input type="submit">'
 									'</form></body></html>')
 
-class Rankings(Page):
-
-	def get(self):
-		pass
-
 application = webapp2.WSGIApplication([
 	('/', MainPage),
 	('/profile', Profile),
 	('/rankings', Rankings),
-	('/player', AddPlayer)
+	('/player', AddPlayer),
+	('/storegame', StoreGame)
 ], debug=True)

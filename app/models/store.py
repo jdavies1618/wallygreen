@@ -25,6 +25,10 @@ class Player(db.Model):
 		return 1
 	played = property(_get_played)
 
+	def _get_won(self):
+		return 1
+	won = property(_get_won)
+
 	@classmethod
 	def get_player(cls, user):
 		q = db.Query(cls)
@@ -44,38 +48,45 @@ class Player(db.Model):
 						league=league)
 		player.save()
 		return player
-	
+
 	@classmethod
 	def get_players_in_league(cls, league):
 		q = Player.all()
 		q.filter('league = ', league)
 		q.order('-rating')
-		
+
 		players = []
 		for player in q.run():
 			players.append(player)
 		return players
-		
+
 	@classmethod
 	def get_players_by_league(cls):
 		leagues = OrderedDict()
 		for league in LEAGUES:
 			leagues[league] = cls.get_players_in_league(league)
-		
+
 		return leagues
-	
-	
+
+
+	def __unicode__(self):
+		return self.identity.nickname()
+
 class Game(db.Model):
 	first_player = db.ReferenceProperty(Player, required=True, collection_name="p1_games")
 	first_score = db.IntegerProperty(required=True)
 	second_player = db.ReferenceProperty(Player, required=True, collection_name="p2_games")
 	second_score = db.IntegerProperty(required=True)
-	first_player_wins = db.BooleanProperty(required=True)
+	first_player_wins = db.BooleanProperty()
 	max_score = db.IntegerProperty(required=True, choices=set([11, 21]))
-	reporter = db.UserProperty(required=True)
+	reporter = db.ReferenceProperty(Player, collection_name="reported_games")
 	stored_time = db.DateTimeProperty(auto_now_add=True)
-	validated = db.BooleanProperty()
 
 class PlayerForm(djangoforms.ModelForm):
 	class Meta:
 		model = Player
+
+class GameForm(djangoforms.ModelForm):
+	class Meta:
+		model = Game
+		fields = ['first_player', 'first_score', 'second_player', 'second_score', 'max_score']

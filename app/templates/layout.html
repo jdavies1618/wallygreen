@@ -50,7 +50,7 @@
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="#">Link</a></li>
+				<li class="active"><a href="/rankings">Rankings</a></li>
 				<li><a href="#">Link</a></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown">Dropdown <b class="caret"></b></a>
@@ -63,8 +63,8 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="#">Played: {{player.played}}</a></li>
-				<li><a href="#">Won: {{games_won}}</a></li>
-				<li><a href="#">Rating: {{rating}}</a></li>
+				<li><a href="#">Won: {{player.won}}</a></li>
+				<li><a href="#">Rating: {{player.rating}}</a></li>
 				<li><a href="#">Plan a game</a></li>
 				<li class="dropdown"><a href="#" class="dropdown-toggle"
 					data-toggle="dropdown"><img src="{{gravatar_url}}"
@@ -91,7 +91,7 @@
 	<footer class="footer clearfix">
 		<div class="container">
 			<hr>
-			<p>&copy; 2013 Knewton. All rights reserved. <a class="secondary" href="/contribute">Instructions for contributing</a>.</p>
+			<p>&copy; 2013 Knewton. All rights reserved.</p>
 			<p> Icons from <a class="secondary" href="http://glyphicons.com/">Glyphicons Free</a>, licensed under <a class="secondary" href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.
 			{# <p><a href="http://www.youtube.com/watch?feature=player_detailpage&v=BIkU4MMQZ54"><img src ="../static/images/atom-small.png" alt="atom logo" style="height:20px;" /></a></p> #}
 		</div>
