@@ -94,22 +94,22 @@ class Profile(Page):
 	def post(self, user_id):
 		data = self.request.POST
 		user = users.get_current_user()
-		
+
 		if user_id != user.user_id():
 			return self.get(user_id)
-		
+
 		player = Player.get_player_with_id(user_id)
 		player.email = data['email']
 		player.nickname = data['name']
 		player.save()
-		
+
 		return self.render_profile(player)
-		
+
 	def get(self, user_id):
 		player = Player.get_player_with_id(user_id)
-		
+
 		self.render_profile(player)
-	
+
 	def render_profile(self, player):
 		tvals = {
 			'profile': player,
@@ -136,37 +136,10 @@ class Rankings(Page):
 		}
 		self.yield_page("rankings", tvals)
 
-class AddPlayer(Page):
-	def get(self):
-		self.response.out.write('<html><body>'
-								'<form method="POST" '
-								'action="/player">'
-								'<table>')
-		self.response.out.write(PlayerForm())
-		self.response.out.write('</table>'
-								'<input type="submit">'
-								'</form></body></html>')
-	def post(self):
-		data=PlayerForm(data=self.request.POST)
-		if data.is_valid():
-			entity = data.save(commit=False)
-			entity.put()
-			self.redirect('/')
-		else:
-			self.response.out.write('<html><body>'
-					'<form method="POST" '
-					'action="/player">'
-					'<table>')
-			self.response.out.write(PlayerForm())
-			self.response.out.write('</table>'
-									'<input type="submit">'
-									'</form></body></html>')
-
 application = webapp2.WSGIApplication([
 	('/', MainPage),
 	('/profile/(\d+)', Profile),
 	('/storegame', StoreGame),
 	('/profile/?', ProfileMe),
 	('/rankings', Rankings),
-	('/player', AddPlayer),
 ], debug=True)

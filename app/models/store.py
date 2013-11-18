@@ -3,7 +3,6 @@ import logging
 
 from google.appengine.api import users
 from google.appengine.ext import db
-from google.appengine.ext.db import djangoforms
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp.util import run_wsgi_app
 
@@ -16,8 +15,8 @@ GOLD = "Gold"
 
 LEAGUES = [BRONZE, SILVER, GOLD]
 LEAGUE_ELOS = [(0, BRONZE),
-			   (700, SILVER),
-			   (820, GOLD)]
+			   (2000, SILVER),
+			   (2400, GOLD)]
 
 class Player(db.Model):
 	identity = db.StringProperty(required=True)
@@ -30,7 +29,7 @@ class Player(db.Model):
 		games.extend([g for g in self.p2_games.run()])
 		return games
 	games = property(_get_games)
-	
+
 	def _get_played(self):
 		return self.p1_games.count() + self.p2_games.count()
 	played = property(_get_played)
@@ -40,7 +39,7 @@ class Player(db.Model):
 		wins_as_p2 = self.p2_games.filter("first_player_wins", False).count()
 		return wins_as_p1 + wins_as_p2
 	won = property(_get_won)
-	
+
 	def _get_lost(self):
 		return self.played - self.won
 	lost = property(_get_lost)
@@ -62,7 +61,7 @@ class Player(db.Model):
 		if not player:
 			player = cls.create_player(user)
 		return player
-	
+
 	@classmethod
 	def get_player_with_id(cls, user_id):
 		q = db.Query(cls)
@@ -97,12 +96,12 @@ class Player(db.Model):
 		leagues = OrderedDict()
 		for league in LEAGUES:
 			leagues[league] = []
-		
+
 		q = Player.all()
 		q.order('-rating')
 		for player in q.run():
 			leagues[player.league].append(player)
-		
+
 		return leagues
 
 
@@ -117,14 +116,10 @@ class Game(db.Model):
 	first_player_wins = db.BooleanProperty()
 	reporter = db.ReferenceProperty(Player, collection_name="reported_games")
 	stored_time = db.DateTimeProperty(auto_now_add=True)
-	
+
 	def _get_winner(self):
 		if (self.first_score > self.second_score):
 			return self.first_player
 		else :
 			return self.second_player
 	winner = property(_get_winner)
-
-class PlayerForm(djangoforms.ModelForm):
-	class Meta:
-		model = Player
