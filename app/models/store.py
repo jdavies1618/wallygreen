@@ -16,8 +16,8 @@ GOLD = "Gold"
 
 LEAGUES = [BRONZE, SILVER, GOLD]
 LEAGUE_ELOS = [(0, BRONZE),
-			   (900, SILVER),
-			   (1200, GOLD)]
+			   (700, SILVER),
+			   (820, GOLD)]
 
 class Player(db.Model):
 	identity = db.StringProperty(required=True)
