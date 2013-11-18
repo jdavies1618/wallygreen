@@ -51,15 +51,16 @@
 
 	$(document).ready(function() {
 		jQuery.validator.addMethod("player_id", function( value, element ) {
-			var result = this.optional(element) || $("#second_player_id").val() !== $("#first_player_id").val();
+			var result = $("#second_player_id").val() !== $("#first_player_id").val();
 			return result;
 		}, "Players must have different ids.");
 		jQuery.validator.addMethod("scores", function (value, element ) {
-			var result = this.optional(element) || (
-							$("#first_player_score_id").val() === $("#maxScore").val() ||
-						 	$("#second_player_score_id").val() === $("#maxScore").val());
+			var fp_score = $("#first_player_score_id").val()
+			var sp_score = $("#second_player_score_id").val()
+			var max_score = $("#maxScore").val()
+			var result = (fp_score !== sp_score && (fp_score === max_score || sp_score === max_score));
 			return result;
-		}, "One player must have the max score.");
+		}, "One player must have the max score, and both players must have different scores.");
 		$("#score-form").validate({});
 	});
 
