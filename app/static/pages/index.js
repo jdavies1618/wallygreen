@@ -35,27 +35,25 @@
 	//------------------------------
 	$("#maxScore").change(function() {
 		var max = $(this).val();
-		var curMax = $("#first_player_score_id").size()
+		var curMax = $("#first_player_score_id option:last").val();
 		if (curMax > max) {
 			if (!(curMax == 21 && max == 11)) {
-				alert("Max Score Madness?!");
+				alert("Max Score Madness?! cur="+curMax+"; max="+max);
 			}
-			for(int i=curMax;i>max;i--){
-				$("#first_player_score_id option:last").remove();
-				$("#second_player_score_id option:last").remove();
-			}
+			$("#first_player_score_id option:gt("+max+")").remove();
+			$("#second_player_score_id option:gt("+max+")").remove();
 		} else if (max > curMax) {
 			if (!(curMax == 11 && max == 21)) {
-				alert("Max Score Madness?!");
+				alert("Max Score Madness?! cur="+curMax+"; max="+max);
 			}
-			for(int i=curMax+1;i<=max;i++){
+			for(var i=Number(curMax)+1;i<=max;i++){
 				$("#first_player_score_id").append(
 					"<option value='"+i+"'>"+i+"</option>");
 				$("#second_player_score_id").append(
 					"<option value='"+i+"'>"+i+"</option>");
 			}
 		}
-	})
+	});
 
 	//------------------------------
 	//
