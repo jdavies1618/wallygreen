@@ -24,7 +24,9 @@ class Player(db.Model):
 	email = db.StringProperty(required=True)
 
 	def _get_games(self):
-		return self.p1_games + self.p2_games
+		games = [g for g in self.p1_games.run()]
+		games.extend([g for g in self.p2_games.run()])
+		return games
 	games = property(_get_games)
 	
 	def _get_played(self):
@@ -97,6 +99,13 @@ class Game(db.Model):
 	first_player_wins = db.BooleanProperty()
 	reporter = db.ReferenceProperty(Player, collection_name="reported_games")
 	stored_time = db.DateTimeProperty(auto_now_add=True)
+	
+	def _get_winner(self):
+		if (self.first_score > self.second_score):
+			return self.first_player
+		else :
+			return self.second_player
+	winner = property(_get_winner)
 
 class PlayerForm(djangoforms.ModelForm):
 	class Meta:

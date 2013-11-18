@@ -45,6 +45,7 @@ class MainPage(Page):
 		for league, players in players_by_league.iteritems():
 			players_by_league_l.append(dict(league=league, players=players))
 
+		players_by_league_l.reverse()
 		user = users.get_current_user()
 		if user is None:
 			self.redirect(users.create_login_url(self.request.uri))
@@ -80,8 +81,11 @@ class Profile(Page):
 
 	def get(self, user_id):
 		player = Player.get_player_with_id(user_id)
+		games = player.games
+		
 		tvals = {
-				'profile': player
+				'profile': player,
+				'games': games,
 				}
 		self.yield_page("profile", tvals)
 
@@ -99,6 +103,8 @@ class Rankings(Page):
 		players_by_league_l = []
 		for league, players in players_by_league.iteritems():
 			players_by_league_l.append(dict(league=league, players=players))
+
+		players_by_league_l.reverse()
 		tvals = {
 			'players_by_league': players_by_league_l
 		}

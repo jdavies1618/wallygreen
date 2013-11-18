@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<h1>Profile for {{user.nickname}}</h1>
+<h1>Profile for {{profile.nickname}}</h1>
 
 
 <section class="stats">
@@ -9,40 +9,39 @@
 	<h2>Stats</h2>
 	<div class="row">
 		<div class="stats-label text-right col-md-4">Played</div>
-		<div class="stats-value col-md-4">{{player.played}}</div>
+		<div class="stats-value col-md-4">{{profile.played}}</div>
 	</div>
 
 
 	<div class="row">
 		<div class="stats-label text-right col-md-4">Won</div>
-		<div class="stats-value col-md-4">{{player.won}}</div>
+		<div class="stats-value col-md-4">{{profile.won}}</div>
 	</div>
 
 	<div class="row">
 		<div class="stats-label text-right col-md-4">Lost</div>
-		<div class="stats-value col-md-4">{{player.lost}}</div>
+		<div class="stats-value col-md-4">{{profile.lost}}</div>
 	</div>
 
 </section>
 
 
 <section class="games">
-	{% if player.games %}
-	<table class="table">
-		<thead>
-			<th>Athlete</th>
-			<th>Played</th>
-		</thead>
-		<tbody>
-			{% for player in item.players %}
-			<tr>
-				<td>{{player.identity.nickname}}</td>
-				<td>derp</td>
-			</tr>
-			{% endfor %}
-
-		</tbody>
-	</table>
+	<h2>Game History</h2>
+	{% if games %}
+	
+	<ul class="game-list">
+		{% for game in profile.games %}
+		<li>
+			<div class="game-player game-first-player {% ifequal game.winner game.first_player %}game-winner {% endifequal %}">
+				<div class="game-p1 game-player-name">{{game.first_player.nickname}}</div><div class="game-p1-score game-score">{{game.first_score}}</div>
+			</div>
+			<div class="game-player game-second-player {% ifequal game.winner game.second_player %}game-winner {% endifequal %}">
+				<div class="game-p2-score game-score">{{game.second_score}}</div><div class="game-p2 game-player-name">{{game.second_player.nickname}}</div>
+			</div>
+		</li>
+		{% endfor %}
+	</ul>
 
 	{% else %} {{user.nickname}} has not played any games yet! {% endif %}
 

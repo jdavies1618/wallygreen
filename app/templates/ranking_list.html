@@ -7,20 +7,22 @@
 	<table class="table">
 		<thead>
 			<th>Athlete</th>
+			<th>Won</th>
 			<th>Played</th>
 		</thead>
 		<tbody>
 			{% for player in item.players %}
 			<tr>
-				<td>{{player.identity.nickname}}</td>
-				<td>derp</td>
+				<td><a href="/profile/{{player.identity}}">{{player.nickname}}</a></td>
+				<td>{{player.won}}</td>
+				<td>{{player.played}}</td>
 			</tr>
 			{% endfor %}
 
 		</tbody>
 	</table>
 
-	{% else %} No players in {{item.league|capfirst}} yet {% endif %}
+	{% else %} No players in {{item.league|capfirst}} league yet {% endif %}
 
 	{% endfor %}
 </div>

@@ -108,3 +108,27 @@ h2 img.league-icon {
 	width: 20px;
 	height: 20px;
 }
+
+
+#games { width: 100%; }
+.game-list {
+	width: 90%;
+	max-width:800px;
+	margin: 0 5%;
+}
+.game-list li {
+	list-style-type: none;
+}
+.game-list li div {
+	display: inline-block;
+	margin: 0;
+	padding: 0 1em;
+}
+
+.game-second-player .game-player-name { text-align: right; }
+.game-list li > div { background: rgb(255, 179, 179); }
+.game-list li > div.game-winner { background: rgb(180, 216, 180); }
+.game-winner .game-score { font-weight: bold; }
+.game-player { width: 48%; }
+.game-player-name { width: 90%; }
+.game-score { width: 10%; }
