@@ -132,3 +132,7 @@ h2 img.league-icon {
 .game-player { width: 48%; }
 .game-player-name { width: 90%; }
 .game-score { width: 10%; }
+
+#profile-info {
+	width: 450px;
+}

@@ -91,16 +91,30 @@ class StoreGame(Page):
 
 class Profile(Page):
 
+	def post(self, user_id):
+		data = self.request.POST
+		user = users.get_current_user()
+		
+		if user_id != user.user_id():
+			return self.get(user_id)
+		
+		player = Player.get_player_with_id(user_id)
+		player.email = data['email']
+		player.nickname = data['name']
+		player.save()
+		
+		return self.render_profile(player)
+		
 	def get(self, user_id):
 		player = Player.get_player_with_id(user_id)
-		games = player.games
-
+		
+		self.render_profile(player)
+	
+	def render_profile(self, player):
 		tvals = {
-				'profile': player,
-				'games': games,
-				}
+			'profile': player,
+			}
 		self.yield_page("profile", tvals)
-
 
 class ProfileMe(Page):
 
